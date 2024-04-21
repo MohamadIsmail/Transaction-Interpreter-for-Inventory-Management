@@ -1,4 +1,5 @@
 from huggingface_hub.inference_api import InferenceApi
+import streamlit as st
 import json
 
 
@@ -7,19 +8,12 @@ import json
 #input_sentence = "Increment item A006 quantity to 60 and assign it to person Ahmed."
 
 
-def read_config():
-    with open("globals.json", "r") as jsonfile:
-        data = json.load(jsonfile)
-        return data
-
-
-
 def classify_input(input_sentence):
     classification_inputs = input_sentence
     classification_params = {"candidate_labels": ["move", "receive", "adjust", "dispose"]}
-    config = read_config()
-    classification_inference = InferenceApi(repo_id=config["classification_model"],
-                                            token=config["api_token"])
+
+    classification_inference = InferenceApi(repo_id=st.secrets["classification_model"],
+                                            token=st.secrets["api_token"])
     classification_output = classification_inference(classification_inputs, classification_params)
     transaction_type = classification_output['labels'][0]
     return transaction_type
@@ -35,9 +29,9 @@ def process_input(input_sentence):
 
 
 def question_answering_inference():
-    config = read_config()
-    qa_inference = InferenceApi(repo_id=config["question_answering_model"],
-                                token=config["api_token"])
+
+    qa_inference = InferenceApi(repo_id=st.secrets["question_answering_model"],
+                                token=st.secrets["api_token"])
     return qa_inference
 
 

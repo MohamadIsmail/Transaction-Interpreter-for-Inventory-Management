@@ -1,6 +1,7 @@
 import streamlit as st
 from hugging_face_demo import extract_parameters, classify_input, generate_response
 
+
 def main():
     st.title("Text Classification and Parameter Extraction Demo")
 
@@ -23,9 +24,10 @@ def main():
         st.write(transaction_type)
 
         st.write("### Parameter Extraction Result:")
-        textsplit= parameter_extraction_result.splitlines()
+        textsplit = parameter_extraction_result.splitlines()
         for x in textsplit:
             st.write(x)
+
 
 if __name__ == "__main__":
     main()
